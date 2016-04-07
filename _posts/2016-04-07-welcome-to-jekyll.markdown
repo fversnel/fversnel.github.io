@@ -19,6 +19,11 @@ float length = float.PositiveInfinity;
 Physics.Raycast(position, direction, out hitInfo, length, layers, QueryTriggerInteraction.UseGlobal);
 {% endhighlight %}
 
+- TODO: Why are there so many overloads for this function?
+- TODO: Why is there hidden global state? Because Unity wants to be perceived as being easy to use
+- TODO: But it isn't simple. Explain easy vs. simple, refer to Rich Hickey talk.
+- TODO: How do we prevent from creating APIs that are so convoluted.
+
 Let's look at what this function does. It sends a ray into the world filling the hitInfo
 object with the first thing that was hit and returns true. If nothing was hit it returns
 false and the hitInfo object remains empty.
@@ -52,6 +57,8 @@ This is a meaningful data structure that can be used by all sorts of library fun
 to do meaningful things but it isn't used by Physics.Raycast even though it could be easily modified
 to do so:
 
+- TODO: Unity actually has an overload for using Ray so this isn't true
+
 {% highlight csharp %}
 Ray ray = new Ray(origin, direction);
 float length = float.PositiveInfinity;
@@ -68,6 +75,8 @@ public struct Ray {
     public float Length;
 }
 {% endhighlight %}
+
+- TODO: ray length might be redundant and can be part of the Direction?
 
 We can then rewrite the Physics.Raycast function again making it even clearer:
 
