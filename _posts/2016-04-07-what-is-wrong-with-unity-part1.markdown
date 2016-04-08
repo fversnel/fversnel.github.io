@@ -57,6 +57,8 @@ This sets an example to other programmers using Unity and actively encouraging t
 
 # Defining good data structures
 
+<!-- TODO Explain why good data structures are important -->
+
 Unity has a Ray data structure which looks like this:
 
 {% highlight csharp %}
@@ -66,10 +68,10 @@ public struct Ray {
 }
 {% endhighlight %}
 
-The Ray struct represents a ray that is cast from a point into a given direction.
+The Ray struct represents a line from a point in space into a given direction.
 This is a meaningful data structure that can be used by all sorts of library functions and
 is also used by `Physics.Raycast`. Adding a length property to the Ray actually enhances it
-without breaking what a Ray represents:
+without breaking what it represents:
 
 {% highlight csharp %}
 public struct Ray {
@@ -100,7 +102,7 @@ HitInfo? hit = Physics.Raycast(ray, layers, QueryTriggerInteraction.UseGlobal);
 ~~~
 
 The function now simply returns a C# [nullable](https://msdn.microsoft.com/en-us/library/b3h38hb0%28v=vs.90%29.aspx) type `HitInfo?`.
-The function returns `null` if nothing was hit and returns the `HitInfo` if something was hit.
+It returns `null` if nothing was hit and returns the `HitInfo` if something was hit.
 
 # Removing hidden state
 
@@ -121,11 +123,9 @@ Raycast function. We can see that the API designer has tried to mitigate this
 problem by introducing the `layers` parameter.
 
 The `layers` parameter filters all object in the world based on the layer they
-are on. Each object can be attached to exactly one layer.
-
-The `layers` parameter becomes unnecessary when you can provide the `physicsWorld`
+are on. Each object can be attached to exactly one layer. The parameter becomes unnecessary when you can provide the `physicsWorld`
 yourself. In fact the purpose of raycasting has nothing to do with filtering objects in the world. According
-to Rich Hickey's definition of simple this should be done separately. Doing the filtering separately we
+to Rich Hickey's definition of simple this should be done separately. By doing the filtering separately we
 gain much more control over what and how
 we actually filter the objects that will be given to the raycast function.
 
@@ -137,30 +137,23 @@ public class PhysicsWorld {
 }
 ~~~
 
-Before doing a raycast we can simply filter the set of colliders based on arbitrary properties
-instead of just `layers`.
+Before doing a raycast we can filter the set of colliders based on arbitrary properties
+instead of just `layers`:
 
 ~~~ csharp
-// First we define a physics world and filter the UI elements
 PhysicsWorld physicsWorld;
 int uiLayer = LayerMask.Create("UI");
 physicsWorld = physicsWorld.Filter(o => (o.layer & uiLayer) != 0);
 
 Ray ray = new Ray(origin, direction, length);
-HitInfo? hit = Physics.Raycast(physicsWorld, ray);
-
-// We call the trigger if we want, if we don't want to trigger
-// this object we simply don't call it.
-if(hit.HasValue) {
-    hit.Value.Trigger();
-}
+HitInfo? hit = Physics.Raycast(physicsWorld, ray, QueryTriggerInteraction.UseGlobal);
 ~~~
 
-# Extra: Object orientation
+# Using object orientation
 
 By using [extensions methods](https://msdn.microsoft.com/en-us/library/bb383977.aspx) we can use object orientation to add the raycast
-function in the proper scope such that you can easily get in which context
-the raycast can be used.
+function in the proper scope such that we can easily understand in which context
+the raycast can be performed.
 
 ~~~ csharp
 public static HitInfo? Raycast(this PhysicsWorld world, Ray ray) {
@@ -177,5 +170,21 @@ HitInfo? hit = physicsWorld.Raycast(new Ray(origin, direction, length));
 
 # Conclusion
 
-We've successfully introduced two data structures and redefined what it means to
-do raycasting in Unity.
+Final code:
+
+~~~ csharp
+PhysicsWorld physicsWorld = ...;
+int uiLayer = LayerMask.Create("UI");
+physicsWorld = physicsWorld.Filter(o => (o.layer & uiLayer) != 0);
+
+HitInfo? hit = physicsWorld.Raycast(new Ray(origin, direction, length));
+
+if(hit.HasValue) {
+    hit.Value.Trigger();
+}
+~~~
+
+This is more code than we started out with so how can this possibly be better? It's better
+because we have separated the concerns and have arrived at a pure definition of what raycasting is
+without other unrelated concerns mixed in. This is much more important than being able
+to write certain cases succinctly while being unable to write others.
