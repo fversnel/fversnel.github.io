@@ -8,26 +8,28 @@ During the development of our Unity-based game [Volo Airsport](https://volo-airs
 numerous battles with the Unity API. Unity is a wonderful tool solves very fundamental 3D engine
 problems  but it also uses and encourages bad software design practices.
 
-Unity's approach to API design seems to be concerned with being *easy* to pick up but not *simple* to
+Unity's approach to API design seems to be concerned with being **easy** to pick up but not **simple** to
 use. Where easy means being 'near' or 'at hand' and simple means 'not braded together'. They focus
 on making trivial cases really easy to write and at the same time making the
-more complex 'real world' cases harder to write because the API is not simple. 
+'real world' cases complex to write because the API is not simple.
 
 Simplicity facilitates:
 
 - Changing requirements.
-- Software quality and correctness
+- Software quality and correctness.
 - Code comprehension.
 
-It does this because it is all about focussing on one thing at a time. It means that all the
-capabilities that the API exposes are available for use separately. Rich Hickey explain this very
-well in his talk ['Simple Made
-Easy'](http://www.infoq.com/presentations/Simple-Made-Easy-QCon-London-2012).
+It does so because it is all about focussing on one thing at a time. For example, it means that all
+the capabilities that the API exposes are available for use separately and can be reasoned about
+separately. You can see why this would facilitate code comprehension and code quality all together:
+when reading some code you no longer have to untangle it in your head. If you get better code
+comprehension it means you can reason better about its correctness and can see clearer what parts
+need to change or swapped out when the requirements change. Rich Hickey explain this very well in
+his talk ['Simple Made Easy'](http://www.infoq.com/presentations/Simple-Made-Easy-QCon-London-2012). 
 
-Simplicity is a
-great measure for whether things are well designed. We can verify if a certain part of the API
-is concerned with doing one thing. If it isn't we can reason why this might be and whether
-that reasoning is valid or not.
+Simplicity is a great measure for determining whether things are well designed. For example, we can
+verify if a certain part of the API is concerned with doing one thing. If it isn't we can reason why
+this might be and whether that reasoning is valid or not.
 
 In this blog post series I will explain some of the complexity that the Unity API imposes on its users
 and I will propose simple(r) solutions to them. Each entry will focus on one particular API call and a
@@ -51,7 +53,7 @@ RaycastHit hit;
 int layers = LayerMask.Create("UI");
 float maxDistance = float.PositiveInfinity;
 Ray ray = new Ray(position, direction);
-Physics.Raycast(ray, out hit, maxDistance, layers, 
+Physics.Raycast(ray, out hit, maxDistance, layers,
                 QueryTriggerInteraction.UseGlobal);
 ~~~
 
@@ -66,9 +68,10 @@ Here's what's wrong:
     2. Raycasting the filtered objects.
     3. Firing a trigger on the object that was hit.
 - It has two return values: a `boolean` and an `out` parameter.
+- It has 14 overloads to facilitate all its use-cases.
 
-Because it is mixing these concerns together it has these 14 different overloads and we will see
-that all these overloads dissappear once we have simplified this API call.
+I will rewrite the definition of this function in small steps to something will no longer use global
+state, no longer mixes concerns, and has zero overloads. 
 
 <!-- - TODO: Why are there so many overloads for this function? It does a poor job at separating concerns
     - It does filtering
@@ -125,7 +128,7 @@ the length is now part of the `Ray`:
 RaycastHit hit;
 int layers = LayerMask.Create("UI");
 Ray ray = new Ray(origin, direction, length);
-Physics.Raycast(ray, out hit, layers, 
+Physics.Raycast(ray, out hit, layers,
                 QueryTriggerInteraction.UseGlobal);
 ~~~
 
@@ -137,7 +140,7 @@ instance alleviates you from this task:
 ~~~ csharp
 int layers = LayerMask.Create("UI");
 Ray ray = new Ray(origin, direction, length);
-RaycastHit? hit = Physics.Raycast(ray, layers, 
+RaycastHit? hit = Physics.Raycast(ray, layers,
                                   QueryTriggerInteraction.UseGlobal);
 ~~~
 
@@ -152,7 +155,7 @@ Let's look at a hidden variable that isn't part of the function definition:
 int layers = LayerMask.Create("UI");
 Ray ray = new Ray(origin, direction, length);
 var physicsWorld = ??? // The hidden variable made explicit
-RaycastHit? hit = Physics.Raycast(physicsWorld, ray, layers, 
+RaycastHit? hit = Physics.Raycast(physicsWorld, ray, layers,
                                   QueryTriggerInteraction.UseGlobal);
 ~~~
 
@@ -187,7 +190,7 @@ physicsWorld = physicsWorld.Filter(collidable => {
 });
 
 Ray ray = new Ray(origin, direction, length);
-RaycastHit? hit = Physics.Raycast(physicsWorld, ray, 
+RaycastHit? hit = Physics.Raycast(physicsWorld, ray,
                                   QueryTriggerInteraction.UseGlobal);
 ~~~
 
