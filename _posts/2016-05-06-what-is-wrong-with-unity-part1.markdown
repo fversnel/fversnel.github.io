@@ -2,7 +2,7 @@
 layout: post
 title:  "What's wrong with Unity - part 1"
 date:   2016-05-06 14:00:00 +0200
-categories: unity, software design
+categories: [unity, 'software design']
 ---
 During the development of our Unity-based game [Volo Airsport](https://volo-airsport.com) we fought
 numerous battles with the Unity API. Unity is a wonderful tool solves very fundamental 3D engine
