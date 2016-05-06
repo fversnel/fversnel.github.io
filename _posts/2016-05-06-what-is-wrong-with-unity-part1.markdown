@@ -1,7 +1,7 @@
 ---
 layout: post
-title:  "What's wrong with Unity - part 1 (unfinished)"
-date:   2016-04-07 12:29:10 +0200
+title:  "What's wrong with Unity - part 1"
+date:   2016-05-06 14:00:00 +0200
 categories: unity, software design
 ---
 During the development of our Unity-based game [Volo Airsport](https://volo-airsport.com) we fought
@@ -11,25 +11,28 @@ problems  but it also uses and encourages bad software design practices.
 Unity's approach to API design seems to be concerned with being **easy** to pick up but not **simple** to
 use. Where easy means being 'near' or 'at hand' and simple means 'not braded together'. They focus
 on making trivial cases really easy to write and at the same time making the
-'real world' cases complex to write because the API is not simple.
+'real world' cases complex to write.
 
 Simplicity facilitates:
 
-- Changing requirements.
-- Software quality and correctness.
-- Code comprehension.
+- Changing requirements
+- Software quality and correctness
+- Code comprehension
 
-It does so because it is all about focussing on one thing at a time. For example, it means that all
-the capabilities that the API exposes are available for use separately and can be reasoned about
-separately. You can see why this would facilitate code comprehension and code quality all together:
+Simplicity is all about focussing on one thing at a time. For example, it means that all the
+capabilities that an API exposes are available for use separately and can be reasoned about
+separately. You can see why this would facilitate code comprehension and code quality:
 when reading some code you no longer have to untangle it in your head. If you get better code
-comprehension it means you can reason better about its correctness and can see clearer what parts
-need to change or swapped out when the requirements change. Rich Hickey explain this very well in
-his talk ['Simple Made Easy'](http://www.infoq.com/presentations/Simple-Made-Easy-QCon-London-2012). 
+comprehension it means you can reason better about code correctness and can see clearer what parts
+need to change when new requirements are introduced. Rich Hickey explains this very well in
+his talk ['Simple Made Easy'](http://www.infoq.com/presentations/Simple-Made-Easy-QCon-London-2012).
 
-Simplicity is a great measure for determining whether things are well designed. For example, we can
-verify if a certain part of the API is concerned with doing one thing. If it isn't we can reason why
-this might be and whether that reasoning is valid or not.
+The opposite of simplicity is complexity: conflating things together in such a way that they
+cannot be used separately.
+
+Simplicity gives us a great measure for design quality. It allows us to verify if a certain part of
+the API is concerned with doing one thing and if it isn't we can reason if there's any validity to
+its complexity.
 
 In this blog post series I will explain some of the complexity that the Unity API imposes on its users
 and I will propose simple(r) solutions to them. Each entry will focus on one particular API call and a
@@ -68,28 +71,12 @@ Here's what's wrong:
     2. Raycasting the filtered objects.
     3. Firing a trigger on the object that was hit.
 - It has two return values: a `boolean` and an `out` parameter.
-- It has 14 overloads to facilitate all its use-cases.
+- It has 13 overloads to facilitate all its use-cases.
 
 I will rewrite the definition of this function in small steps to something will no longer use global
-state, no longer mixes concerns, and has zero overloads. 
-
-<!-- - TODO: Why are there so many overloads for this function? It does a poor job at separating concerns
-    - It does filtering
-    - It does raycasting but not with the right data structure.
-- TODO: Why is there hidden global state? Because Unity wants to be perceived as being easy to use
-- TODO: But it isn't simple. Explain easy vs. simple, refer to Rich Hickey talk.
-- TODO: How do we prevent from creating APIs that are so convoluted. -->
-
-
-<!-- - Uses global state to perform ray check
-- It resides in a stateful static class (Singleton considered harmful)
-- It is tied to a specific implementation of a physics library (Non-extensibility)
-- Does not use Ray data structure (requires extra programmer comprehensions,
-    makes it feel detached from other parts of the API) -->
+state, no longer mixes concerns, and has zero overloads.
 
 # Defining good data structures
-
-<!-- TODO Explain why good data structures are important -->
 
 Unity has a Ray data structure which looks like this:
 
@@ -117,9 +104,6 @@ Defining meaningful, coherent data structures is important. Once you have a good
 can use it over and over again in your code. People using your code will recognize this data
 structure and can soon grasp what this new function is they're looking at because they're already
 familiar with the data structure it uses.
-
-
-<!-- - TODO: ray length might be redundant and can be part of the Direction? -->
 
 We can now rewrite the `Physics.Raycast` function by removing the `maxDistance` parameter because
 the length is now part of the `Ray`:
@@ -170,7 +154,11 @@ can be attached to exactly one layer). The parameter becomes superfluous when yo
 in the world. By doing the filtering separately we gain much more control over what and how we
 actually filter the objects that will be given to the raycast function.
 
-What might this physicsWorld variable look like:
+*If a new way for filtering objects
+is ever introduced in the Unity API the raycast function
+needs to rewritten even though the act of raycasting has nothing to do with filtering.*
+
+This is what the physics world might look like:
 
 ~~~ csharp
 public class PhysicsWorld {
@@ -178,8 +166,11 @@ public class PhysicsWorld {
 }
 ~~~
 
+Even though this is a simplified representation it will help us to illustrate what happens when a
+variable like this is available to us.
+
 Before doing a raycast we can filter the set of collidables based on arbitrary properties
-instead of just `layers`:
+instead of just `layers`, in this case we filter based on the `layer` and the `IsVisible` property:
 
 ~~~ csharp
 PhysicsWorld physicsWorld;
@@ -250,8 +241,9 @@ if(hit.HasValue) {
 }
 ~~~
 
-This is more code than we started out with. So how can this possibly be better?
+This is more code than we started out with so how can this possibly be better?
 We have separated concerns and have arrived at a simple definition of what raycasting is.
 Because of that we are now able to filter the objects in the world based custom predicates instead of
 being forced to use layers. Triggering has become a seperate concept as well that we can choose to
-be concerned with but is not forced upon us.
+be concerned with but is not forced upon us. Changes in the code of one concern do not
+directly impact the others anymore.
