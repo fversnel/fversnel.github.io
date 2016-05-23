@@ -156,7 +156,7 @@ actually filter the objects that will be given to the raycast function.
 
 *If a new way for filtering objects
 is ever introduced in the Unity API the raycast function
-needs to rewritten even though the act of raycasting has nothing to do with filtering.*
+needs to be rewritten even though the act of raycasting has nothing to do with filtering.*
 
 This is what the physics world might look like:
 
