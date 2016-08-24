@@ -6,7 +6,6 @@ published: true
 categories: unity, software design, reactive programming
 ---
 
-# Introduction
 Programming game behavior over time and why it is painful. Scripting game behavior is hard. You
 have to answer questions like: *How do I organize the interaction between entities?*, *How do I
 detect when an event has occurred?*. There is an inherent complexity to answering those questions,
