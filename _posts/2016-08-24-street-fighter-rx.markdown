@@ -5,7 +5,6 @@ date:   2016-08-24 10:51:10 +0200
 published: true
 categories: unity, software design, reactive programming
 ---
-Rx in Unity: scripting game behavior over time
 
 # Introduction
 Programming game behavior over time and why it is painful.  Scripting game behavior is hard. You
