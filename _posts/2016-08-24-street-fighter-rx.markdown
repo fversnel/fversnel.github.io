@@ -454,7 +454,7 @@ incoming KeyboardEvents by extracting the KeyCodes, because we don’t care abou
 anymore, and returns a new observable. This process is easier to understand visually as a marble
 diagram, where each line represents the observable that is derived from the one above:
 
-<img width="590" src="/assets/images/street-fighter-1.png" />
+<img width="690" src="/assets/images/street-fighter-1.png" />
 
 Now that we have an observable of key presses we can start transforming it into buffers. The first
 thing to do is to check for simultaneous key presses: we want to check which keys are pressed at the
@@ -470,7 +470,7 @@ keyPresses.Buffer(bufferClosingSelector: () => closeBuffer);
 
 Once again, this process is much easier to understand visually:
 
-<img width="590" src="/assets/images/street-fighter-2.png" />
+<img width="690" src="/assets/images/street-fighter-2.png" />
 
 There are three observables into play here:
 
@@ -510,7 +510,7 @@ pressed a timer observable is created then switch will use that, if another key 
 that then another timer observable will be created and switch will use that timer and discard the
 first one. Visually we can represent this process as follows:
 
-<img width="590" src="/assets/images/street-fighter-3.png" />
+<img width="690" src="/assets/images/street-fighter-3.png" />
 
 Now we have an observable that produces a value that we can use to close a buffer, allowing us to
 finish the implementation by adding a Window operation:
@@ -565,7 +565,7 @@ takes all values produced in all the nested observables and combines them into a
 observable. Again, a visual representation of how values flow through all observables will most
 certainly help to understand what we have just coded:
 
-<img width="590" src="/assets/images/street-fighter-4.png" />
+<img width="690" src="/assets/images/street-fighter-4.png" />
 
 Finally to complete our exercise we subscribe to the MoveObservable to let the player actually
 perform a move:
