@@ -587,7 +587,7 @@ about simultaneous input buffering through the values it produces but not its in
 we get sequential input buffers through the Window observable and then aggregate and match Moves on
 the fly without looking at or changing the internals of the sequential buffering code.  
 
-#Conclusion
+# Conclusion
 
 With Rx we get programming constructs that allow us to describe game behavior over time. We’ve seen
 that this makes code for buffering input for a fighting game much more concise and readable than its
