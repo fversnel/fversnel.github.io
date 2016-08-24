@@ -585,7 +585,10 @@ input buffering concepts are not intertwined: buffering simultaneous input is co
 and doesn’t know anything about sequential input buffering. Sequential input buffering only knows
 about simultaneous input buffering through the values it produces but not its internals. Likewise,
 we get sequential input buffers through the Window observable and then aggregate and match Moves on
-the fly without looking at or changing the internals of the sequential buffering code.  Conclusion
+the fly without looking at or changing the internals of the sequential buffering code.  
+
+#Conclusion
+
 With Rx we get programming constructs that allow us to describe game behavior over time. We’ve seen
 that this makes code for buffering input for a fighting game much more concise and readable than its
 traditionally programmed ‘polling’ counterpart.
@@ -601,9 +604,11 @@ To learn more about Rx, check out <http://www.introtorx.com>.
 
 # Notes on performance
 
-Rx .NET implementation is tailored for concurrency but Unity is single-threaded.
-Lambda’s create garbage?
-Notes on scheduling
+- Rx .NET implementation is tailored for concurrency but Unity is single-threaded.
+- Lambda’s create garbage?
+
+# Notes on scheduling
+
 Rx uses the concept of Scheduling underneath to plan the execution of actions in the future.
 Using the default scheduler introduces problems when used with Unity as it uses up Unity’s thread to do the scheduling.
 To solve this problem a specific Scheduler for Unity has been written that plays nice with Unity’s threading model.
