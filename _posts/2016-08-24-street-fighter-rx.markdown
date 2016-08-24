@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Street Fighter Rx"
-date:   2016-24-08 10:51:10 +0200
+date:   2016-08-24 10:51:10 +0200
 published: true
 categories: unity, software design, reactive programming
 ---
