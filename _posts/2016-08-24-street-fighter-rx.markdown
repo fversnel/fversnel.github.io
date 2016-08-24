@@ -7,23 +7,23 @@ categories: unity, software design, reactive programming
 ---
 
 # Introduction
-Programming game behavior over time and why it is painful.  Scripting game behavior is hard. You
-have to answer questions like: ‘How do I organize the interaction between entities?’, ‘How do I
-detect when an event has occurred?’. There is an inherent complexity to answering those questions,
+Programming game behavior over time and why it is painful. Scripting game behavior is hard. You
+have to answer questions like: *How do I organize the interaction between entities?*, *How do I
+detect when an event has occurred?*. There is an inherent complexity to answering those questions,
 but there is also an aspect that makes it unnecessarily difficult: the lack of proper programming
 tools.
 
-Let’s look at various descriptions for game behaviors: ‘when the player presses the A button his
-character jumps’, ‘when two seconds have passed put a new enemy into the game’, ‘when the player
-stands next to an item and he presses the left mouse button the item is picked up’. The word ‘when’
-in those sentences is a keyword: ‘when this happens I want to react by doing that’. A lot of game
+Let’s look at various descriptions for game behaviors: *when the player presses the A button his
+character jumps*, *when two seconds have passed put a new enemy into the game*, *when the player
+stands next to an item and he presses the left mouse button the item is picked up*. The word *when*
+in those sentences is a keyword: *when this happens I want to react by doing that*. A lot of game
 behavior is about describing when to react.  In order to remove unnecessary (accidental) complexity
 from programming such game behavior we need a tool that helps us to efficiently and accurately
 describe when things happen.
 
 The reactive programming paradigm is solely concerned with describing events. Where an event can
 literally be anything: from a low-level ‘button being pressed’ to an application specific event like
-‘the player jumps’. Unlike other systems that work with events (like .NET events), the reactive
+'the player jumps'. Unlike other systems that work with events (like .NET events), the reactive
 programming paradigm turns an event into a first-class value meaning it is able to construct new
 events from existing ones by transforming, combining and filtering them.
 
@@ -112,7 +112,7 @@ public static class BoxerData {
 }
 ~~~
 
-Finally, we create the mapping as specified by the requirements and store the result in a publically
+Finally, we create the mapping as specified by the requirements and store the result in a publicly
 accessible list. The list can later be used to check if incoming input matches a Move.
 
 # A combat system implemented using polling
@@ -346,8 +346,8 @@ Each frame we check if the "d" key is pressed, if it is we move the player forwa
 We’re going to take Unity’s poll-based Input mechanism and convert it into an Rx Observable so that
 we can observe when keys are pressed.
 
-First, we create an enum called KeyEventType so we can indicate if an event is of type KeyDown event
-or of type KeyUp. Then we create a class called KeyboardEvent which represents a specific instance
+First, we create an enum called `KeyEventType` so we can indicate if an event is of type `KeyDown` event
+or of type `KeyUp`. Then we create a class called KeyboardEvent which represents a specific instance
 of a key press (KeyDown) or a key release (KeyUp). The keyCode variable represents the key being
 pressed/released:
 
@@ -360,7 +360,7 @@ public struct KeyboardEvent {
 }
 ~~~
 
-Second, we create a new MonoBehaviour called RxKeyboard with an Rx Subject and an array of Unity
+Second, we create a new `MonoBehaviour` called `RxKeyboard` with an Rx Subject and an array of Unity
 KeyCodes that we want to poll. The Rx Subject is one of the many ways Rx allows you to create an
 Observable. The Subject is in itself an Observer and an Observable. An Observer is a construct that
 takes events as input, through a method called OnNext in order to publish those events through an
@@ -380,10 +380,10 @@ public class RxKeyboard : MonoBehaviour {
 }
 ~~~
 
-Each frame, we poll all the keys by calling Input.GetKeyDown and Input.GetKeyUp and create a new
-KeyboardEvent each time we have a match, which we then publish on the keyEvents subject by calling
-OnNext on it. Finally, we add a property called Events that exposes the keyboard events as an
-Observable to other scripts:
+Each frame, we poll all the keys by calling `Input.GetKeyDown` and `Input.GetKeyUp` and create a new
+`KeyboardEvent` each time we have a match, which we then publish on the keyEvents subject by calling
+`OnNext` on it. Finally, we add a property called Events that exposes the keyboard events as an
+observable to other scripts:
 
 ~~~ csharp
 public class RxKeyboard : MonoBehaviour {
@@ -483,7 +483,7 @@ There are three observables into play here:
   the buffer closes the buffered input is published and a new buffer is started.
 
 By transforming the keyboard event observable we have created a new observable that produces
-buffered key presses, hence our new Observable produces lists of keys where a list represents a
+buffered key presses, hence our new observable produces lists of keys where a list represents a
 completed buffer.
 
 Buffering sequential input is almost the same as buffering simultaneous input with two notable
@@ -501,9 +501,9 @@ IObservable<long> closeBuffer = bufferTimeOutStream.Switch();
 We take the previously created stream and use it to create a buffer timeout stream. The buffer
 timeout stream is unlike anything we’ve seen before: it’s a observable of observables. An observable
 of observables is almost like an observable of regular values except that it provides us with a bit
-more flexibility: every time the simultaneousKeyStream produces a value we create a new Timer
+more flexibility: every time the `simultaneousKeyStream` produces a value we create a new Timer
 observable that will produce a value after 400 milliseconds have passed. Then we define a
-closeBuffer stream that takes the timeout stream and calls Switch on it. Switch is a special
+`closeBuffer` stream that takes the timeout stream and calls Switch on it. Switch is a special
 operator that takes an Observable of Observables as input and outputs a regular Observable that
 always represents the latest observable produced by the input. More concretely, every time a key is
 pressed a timer observable is created then switch will use that, if another key is pressed after
@@ -522,7 +522,7 @@ IObservable<IObservable<IList<KeyCode>>> sequentialInput =
 
 We create a Window from our simultaneous keys by calling the Window method and providing the
 closeBuffer observable that we have just created. Rx’s Window method is similar to the Buffer method
-except that it exposes the buffer itself as an IObservable instead of a list. On that IObservable a
+except that it exposes the buffer itself as an `IObservable` instead of a list. On that `IObservable` a
 value is produced each time the buffer is updated, which is exactly where Window differs from
 Buffer: it produces a value each time a value is published on a buffer instead of waiting for the
 buffer to be closed before producing a list of values. This characteristic allows us to check if an
@@ -550,24 +550,24 @@ IObservable<Move> moves =
     });
 ~~~
 
-Each time we receive a sequentialKeys variable we create a bufferedInput observable for it by using
+Each time we receive a `sequentialKeys` variable we create a `bufferedInput` observable for it by using
 the Scan method. Scan takes an initial value and an aggregator function as input, each time a value
 is produced the aggregator function is called passing in the aggregated value and the newly received
 value. This way we can produce an InputSequence each time a new buffer is opened and keep updating
 that InputSequence as new values are produced on the buffer.
 
-We then use that bufferedInput variable again to see if it matches a move each time the buffer is
+We then use that `bufferedInput` variable again to see if it matches a move each time the buffer is
 updated by checking if it matches a move. If there is a match we produce a new observable of one
 value containing the move, if no match was found we produce an observable without any values on it,
-Since we return an Observable inside another Observable we again have an Observable of Observables
-while instead we want to have an Observable of Moves. To solve this issue we use SelectMany which
+Since we return an observable inside another observable we again have an Observable of Observables
+while instead we want to have an observable of moves. To solve this issue we use `SelectMany` which
 takes all values produced in all the nested observables and combines them into a regular
 observable. Again, a visual representation of how values flow through all observables will most
 certainly help to understand what we have just coded:
 
 <img width="690" src="/assets/images/street-fighter-4.png" />
 
-Finally to complete our exercise we subscribe to the MoveObservable to let the player actually
+Finally to complete our exercise we subscribe to the `MoveObservable` to let the player actually
 perform a move:
 
 ~~~ csharp
@@ -604,7 +604,9 @@ To learn more about Rx, check out <http://www.introtorx.com>.
 Rx .NET implementation is tailored for concurrency but Unity is single-threaded.
 Lambda’s create garbage?
 Notes on scheduling
-Rx uses the concept of Scheduling underneath to plan the execution of actions in the future. Using the default scheduler introduces problems when used with Unity as it uses up Unity’s thread to do the scheduling. To solve this problem a specific Scheduler for Unity has been written that plays nice with Unity’s threading model.
+Rx uses the concept of Scheduling underneath to plan the execution of actions in the future.
+Using the default scheduler introduces problems when used with Unity as it uses up Unity’s thread to do the scheduling.
+To solve this problem a specific Scheduler for Unity has been written that plays nice with Unity’s threading model.
 
 Scheduling is a wide and complex concept that deserves an article on its own so we won’t go into the
 details here. Just remember that the Unity needs a specific scheduler to plan work ahead of time,
