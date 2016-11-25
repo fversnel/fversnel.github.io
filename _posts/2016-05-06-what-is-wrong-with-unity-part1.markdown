@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "What's wrong with Unity - part 1"
+title:  "What's wrong with Unity (1) - Complex functions"
 date:   2016-05-06 14:00:00 +0200
 categories: [unity, 'software design']
 ---
