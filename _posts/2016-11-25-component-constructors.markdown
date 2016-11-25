@@ -3,7 +3,7 @@ layout: post
 title:  "What's wrong with Unity (2) - Component construction"
 date:   2016-11-25 15:02:10 +0100
 published: true
-categories: unity, software design
+categories: [unity, 'software design']
 ---
 Unity's components do not rely on C# object constructors. My best guess on why they don't
 is the increased flexibility that you get. In this post I will argue why not using
