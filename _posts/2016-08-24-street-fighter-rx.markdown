@@ -1,45 +1,43 @@
 ---
 layout: post
-title:  "Street Fighter Rx"
-date:   2016-04-07 12:29:10 +0200
-published: false
+title:  "Reactive Street Fighter"
+date:   2016-08-24 10:51:10 +0200
+published: true
 categories: unity, software design, reactive programming
 ---
-Rx in Unity: scripting game behavior over time
 
-# Introduction
-Programming game behavior over time and why it is painful.  Scripting game behavior is hard. You
-have to answer questions like: ‘How do I organize the interaction between entities?’, ‘How do I
-detect when an event has occurred?’. There is an inherent complexity to answering those questions,
+Programming game behavior over time and why it is painful. Scripting game behavior is hard. You
+have to answer questions like: *How do I organize the interaction between entities?*, *How do I
+detect when an event has occurred?*. There is an inherent complexity to answering those questions,
 but there is also an aspect that makes it unnecessarily difficult: the lack of proper programming
 tools.
 
-Let’s look at various descriptions for game behaviors: ‘when the player presses the A button his
-character jumps’, ‘when two seconds have passed put a new enemy into the game’, ‘when the player
-stands next to an item and he presses the left mouse button the item is picked up’. The word ‘when’
-in those sentences is a keyword: ‘when this happens I want to react by doing that’. A lot of game
+Let’s look at various descriptions for game behaviors: *when the player presses the A button his
+character jumps*, *when two seconds have passed put a new enemy into the game*, *when the player
+stands next to an item and he presses the left mouse button the item is picked up*. The word *when*
+in those sentences is a keyword: *when this happens I want to react by doing that*. A lot of game
 behavior is about describing when to react.  In order to remove unnecessary (accidental) complexity
 from programming such game behavior we need a tool that helps us to efficiently and accurately
 describe when things happen.
 
 The reactive programming paradigm is solely concerned with describing events. Where an event can
 literally be anything: from a low-level ‘button being pressed’ to an application specific event like
-‘the player jumps’. Unlike other systems that work with events (like .NET events), the reactive
+'the player jumps'. Unlike other systems that work with events (like .NET events), the reactive
 programming paradigm turns an event into a first-class value meaning it is able to construct new
 events from existing ones by transforming, combining and filtering them.
 
 A few years ago Microsoft released Reactive Extensions, also known as Rx, an implementation of the
-reactive paradigm, and with it putting the paradigm in reach of the .NET and Mono developers. 
+reactive paradigm, and with it putting the paradigm in reach of the .NET and Mono developers.
 
 Unity3D is a popular game engine that also runs on the Mono platform.
 
 In this article we’ll compare two approaches to programming a fighting game’s input system with
 Unity3D. The first implementation is completely based on polling, a common programming technique in
 game programming. The second implementation is completely based on the reactive paradigm. We’ll use
-C#, and Rx to for the reactive implementation. For the polling approach we’ll use plain C#. 
+C#, and Rx to for the reactive implementation. For the polling approach we’ll use plain C#.
 
 When reading this article you should already have a basic understanding of Unity3D and the C#
-programming language, experience with Rx is not required. 
+programming language, experience with Rx is not required.
 
 Reading this article will provide you with a better understanding of reactive programming and how it
 can be applied to games. It should become clear what the differences and advantages of reactive
@@ -51,14 +49,14 @@ a traditional polling implementation to a completely reactive implementation.
 Our input system has the following characteristics:
 
 A fighter has the ability to perform moves.
-Moves are entered by the player pressing keys on the keyboard. 
+Moves are entered by the player pressing keys on the keyboard.
 The following moves can be performed:
 
 - `q` triggers a light punch.
 - `w` triggers a medium punch.
 - `e` triggers a heavy punch
 - `right arrow` followed by `q` triggers a fireball.
-- `q`, `w`, `e` pressed simultaneously triggers a super punch. 
+- `q`, `w`, `e` pressed simultaneously triggers a super punch.
 Keys are pressed simultaneously if they are pressed within 20 milliseconds of each other.  Keys are
 pressed sequentially if they are pressed within 20-400 milliseconds of each other. Any key presses
 out of that time range cannot be considered to belong to a single move.
@@ -70,8 +68,8 @@ right is mapped to the Fireball MoveType. The following data structures provide 
 necessary to start implementing both versions of the combat system:
 
 ~~~ csharp
-public enum MoveType { 
-    LightPunch, MediumPunch, HeavyPunch, SuperPunch, Fireball 
+public enum MoveType {
+    LightPunch, MediumPunch, HeavyPunch, SuperPunch, Fireball
 }
 
 public class InputSequence {
@@ -93,27 +91,27 @@ belong to which move.
 
 ~~~ csharp
 public static class BoxerData {
-    public static readonly IList<Move> Moves = new List<Move>(); 
+    public static readonly IList<Move> Moves = new List<Move>();
 
     static BoxerData() {
-        Moves.Add(new Move(new InputSequence(new[,] { { KeyCode.Q, 
-                                                        KeyCode.W, 
-                                                        KeyCode.E } }), 
+        Moves.Add(new Move(new InputSequence(new[,] { { KeyCode.Q,
+                                                        KeyCode.W,
+                                                        KeyCode.E } }),
                            MoveType.SuperPunch));
-        Moves.Add(new Move(new InputSequence(new[,] { { KeyCode.RightArrow }, 
-                                                      { KeyCode.Q } }), 
+        Moves.Add(new Move(new InputSequence(new[,] { { KeyCode.RightArrow },
+                                                      { KeyCode.Q } }),
                            MoveType.Fireball));
-        Moves.Add(new Move(new InputSequence(new[,] { { KeyCode.Q } }), 
+        Moves.Add(new Move(new InputSequence(new[,] { { KeyCode.Q } }),
                            MoveType.LightPunch));
-        Moves.Add(new Move(new InputSequence(new[,] { { KeyCode.W } }), 
+        Moves.Add(new Move(new InputSequence(new[,] { { KeyCode.W } }),
                            MoveType.MediumPunch));
-        Moves.Add(new Move(new InputSequence(new[,] { { KeyCode.E } }), 
+        Moves.Add(new Move(new InputSequence(new[,] { { KeyCode.E } }),
                            MoveType.HeavyPunch));
     }
 }
 ~~~
 
-Finally, we create the mapping as specified by the requirements and store the result in a publically
+Finally, we create the mapping as specified by the requirements and store the result in a publicly
 accessible list. The list can later be used to check if incoming input matches a Move.
 
 # A combat system implemented using polling
@@ -121,7 +119,7 @@ accessible list. The list can later be used to check if incoming input matches a
 We present an implementation using polling to handle the incoming input. Polling is a common
 technique in programming game logic, where at a certain interval, e.g. each frame, state is checked
 in order to make a decision in the program. This is contrary to a push-based approach which we will
-show later, where code is executed when an event occurs (for example, when a key is pressed) 
+show later, where code is executed when an event occurs (for example, when a key is pressed)
 
 For starters let’s create a buffer for simultaneous key presses, which we can later store in another
 buffer that contains all sequential key presses. The buffers are cleared if keys are not pressed
@@ -137,7 +135,7 @@ public class InputBuffering : MonoBehaviour {
     private InputSequence _buffer;
 
     private TimeSpan _mergeInputTime;
-    private List<KeyCode> _mergeBuffer; 
+    private List<KeyCode> _mergeBuffer;
 
     private IEnumerable<KeyCode> _keys;
 
@@ -260,7 +258,7 @@ Finally the Matches method can be called to check if the input currently in the 
 given Move. We do this by looping backwards over the buffered input and the specified move’s
 InputSequence, if at some point during the loop the keys do not match, we break out of the loop and
 return false. If that didn’t happen that means we have a match, we clear the buffer to prevent it
-from using the same input again for matching and return true. 
+from using the same input again for matching and return true.
 
 If we don’t want to be one frame behind on the InputBuffering to check for matching moves we have to
 use Unity’s LateUpdate method, as LateUpdate is always called after Update, we always receive the
@@ -269,7 +267,7 @@ most recent buffered input:
 ~~~ csharp
 public class PlainUnityFighter : MonoBehaviour {
     private InputBuffering inputBuffering;
-    
+
     ...
 
     private void LateUpdate() {
@@ -302,9 +300,9 @@ Rx is a framework for .NET (and javascript and the JVM and a whole lot of other 
 Central to Rx is the `IObservable` class. The `IObservable` represents a stream of events. The
 `IObservable`’s most important method is called `Subscribe` which lets you get events out of an
 observable. This is what hello world looks like in Rx:
-    
+
 ~~~ csharp
-IObservable<String> obs = Observable.Return("hello world"); 
+IObservable<String> obs = Observable.Return("hello world");
 obs.Subscribe(value => Debug.Log(value));
 ~~~
 
@@ -313,7 +311,7 @@ text `"hello world"`. In the second line we subscribe to that observable by pass
 consumes the values produced by this observable. Once Subscribe is called the observable will start
 producing its events for this subscription. In this case it produces the event "hello world" and
 calls the delegate that we added with our subscription, passing in the event. The result is that
-Debug.Log is called, printing the string "hello world" to the Unity debug console. 
+Debug.Log is called, printing the string "hello world" to the Unity debug console.
 
 Now take a look at the following example:
 
@@ -328,7 +326,7 @@ The first line is the same as in the first example, we create an observable stre
 observable, one of which is a method called Delay that returns a new observable with all values from
 the original observable delayed by a certain amount of time. Note that calling Delay does not change
 the original observable itself, but returns a new observable. When we subscribe to this delayed
-observable we will get all of its events two seconds after they are produced. 
+observable we will get all of its events two seconds after they are produced.
 
 Let’s expand the example into something that begins to resemble the basis of a combat system.
 
@@ -337,7 +335,7 @@ By default, Unity provides a poll-based mechanism for processing input, like thi
 ~~~ csharp
 public void Update() {
     if (Input.GetKey("d")) {
-        player.MoveForward(); 
+        player.MoveForward();
     }
 }
 ~~~
@@ -347,8 +345,8 @@ Each frame we check if the "d" key is pressed, if it is we move the player forwa
 We’re going to take Unity’s poll-based Input mechanism and convert it into an Rx Observable so that
 we can observe when keys are pressed.
 
-First, we create an enum called KeyEventType so we can indicate if an event is of type KeyDown event
-or of type KeyUp. Then we create a class called KeyboardEvent which represents a specific instance
+First, we create an enum called `KeyEventType` so we can indicate if an event is of type `KeyDown` event
+or of type `KeyUp`. Then we create a class called KeyboardEvent which represents a specific instance
 of a key press (KeyDown) or a key release (KeyUp). The keyCode variable represents the key being
 pressed/released:
 
@@ -361,7 +359,7 @@ public struct KeyboardEvent {
 }
 ~~~
 
-Second, we create a new MonoBehaviour called RxKeyboard with an Rx Subject and an array of Unity
+Second, we create a new `MonoBehaviour` called `RxKeyboard` with an Rx Subject and an array of Unity
 KeyCodes that we want to poll. The Rx Subject is one of the many ways Rx allows you to create an
 Observable. The Subject is in itself an Observer and an Observable. An Observer is a construct that
 takes events as input, through a method called OnNext in order to publish those events through an
@@ -378,13 +376,13 @@ public class RxKeyboard : MonoBehaviour {
         _keyEvents = new Subject<KeyboardEvent>();
     }
         ...
-} 
+}
 ~~~
 
-Each frame, we poll all the keys by calling Input.GetKeyDown and Input.GetKeyUp and create a new
-KeyboardEvent each time we have a match, which we then publish on the keyEvents subject by calling
-OnNext on it. Finally, we add a property called Events that exposes the keyboard events as an
-Observable to other scripts:
+Each frame, we poll all the keys by calling `Input.GetKeyDown` and `Input.GetKeyUp` and create a new
+`KeyboardEvent` each time we have a match, which we then publish on the keyEvents subject by calling
+`OnNext` on it. Finally, we add a property called Events that exposes the keyboard events as an
+observable to other scripts:
 
 ~~~ csharp
 public class RxKeyboard : MonoBehaviour {
@@ -424,7 +422,7 @@ class ExampleScript : Monobehavior {
 ~~~
 
 After cranking at the keyboard for a while the Debug console might look like this:
-    
+
 ~~~
 KeyDown Q
 KeyUp Q
@@ -455,7 +453,7 @@ incoming KeyboardEvents by extracting the KeyCodes, because we don’t care abou
 anymore, and returns a new observable. This process is easier to understand visually as a marble
 diagram, where each line represents the observable that is derived from the one above:
 
-TODO Insert image
+<img width="690" src="/assets/images/street-fighter-1.png" />
 
 Now that we have an observable of key presses we can start transforming it into buffers. The first
 thing to do is to check for simultaneous key presses: we want to check which keys are pressed at the
@@ -465,13 +463,13 @@ time-frame.
 ~~~ csharp
 TimeSpan bufferTime = TimeSpan.FromMilliseconds(20);
 IObservable<KeyCode> closeBuffer = keyPresses.Delay(bufferTime, scheduler);
-IObservable<IList<KeyCode>> simultaneousKeyPresses = 
+IObservable<IList<KeyCode>> simultaneousKeyPresses =
 keyPresses.Buffer(bufferClosingSelector: () => closeBuffer);
 ~~~
 
-Once again, this process is much easier to understand visually: 
+Once again, this process is much easier to understand visually:
 
-TODO Insert image
+<img width="690" src="/assets/images/street-fighter-2.png" />
 
 There are three observables into play here:
 
@@ -484,7 +482,7 @@ There are three observables into play here:
   the buffer closes the buffered input is published and a new buffer is started.
 
 By transforming the keyboard event observable we have created a new observable that produces
-buffered key presses, hence our new Observable produces lists of keys where a list represents a
+buffered key presses, hence our new observable produces lists of keys where a list represents a
 completed buffer.
 
 Buffering sequential input is almost the same as buffering simultaneous input with two notable
@@ -494,7 +492,7 @@ for a value to be produced. Let’s look at how we create a buffer where closing
     a key press is produced:
 
 ~~~ csharp
-IObservable<IObservable<long>> bufferTimeOutStream = 
+IObservable<IObservable<long>> bufferTimeOutStream =
     simultaneousInput.Select(keys => Observable.Timer(BufferTimeOut));
 IObservable<long> closeBuffer = bufferTimeOutStream.Switch();
 ~~~
@@ -502,28 +500,28 @@ IObservable<long> closeBuffer = bufferTimeOutStream.Switch();
 We take the previously created stream and use it to create a buffer timeout stream. The buffer
 timeout stream is unlike anything we’ve seen before: it’s a observable of observables. An observable
 of observables is almost like an observable of regular values except that it provides us with a bit
-more flexibility: every time the simultaneousKeyStream produces a value we create a new Timer
+more flexibility: every time the `simultaneousKeyStream` produces a value we create a new Timer
 observable that will produce a value after 400 milliseconds have passed. Then we define a
-closeBuffer stream that takes the timeout stream and calls Switch on it. Switch is a special
+`closeBuffer` stream that takes the timeout stream and calls Switch on it. Switch is a special
 operator that takes an Observable of Observables as input and outputs a regular Observable that
 always represents the latest observable produced by the input. More concretely, every time a key is
 pressed a timer observable is created then switch will use that, if another key is pressed after
 that then another timer observable will be created and switch will use that timer and discard the
 first one. Visually we can represent this process as follows:
 
-TODO Insert image
+<img width="690" src="/assets/images/street-fighter-3.png" />
 
 Now we have an observable that produces a value that we can use to close a buffer, allowing us to
 finish the implementation by adding a Window operation:
 
 ~~~ csharp
-IObservable<IObservable<IList<KeyCode>>> sequentialInput = 
+IObservable<IObservable<IList<KeyCode>>> sequentialInput =
     simultaneousInput.Window(windowClosingSelector: () => closeBuffer);
 ~~~
 
 We create a Window from our simultaneous keys by calling the Window method and providing the
 closeBuffer observable that we have just created. Rx’s Window method is similar to the Buffer method
-except that it exposes the buffer itself as an IObservable instead of a list. On that IObservable a
+except that it exposes the buffer itself as an `IObservable` instead of a list. On that `IObservable` a
 value is produced each time the buffer is updated, which is exactly where Window differs from
 Buffer: it produces a value each time a value is published on a buffer instead of waiting for the
 buffer to be closed before producing a list of values. This characteristic allows us to check if an
@@ -551,24 +549,24 @@ IObservable<Move> moves =
     });
 ~~~
 
-Each time we receive a sequentialKeys variable we create a bufferedInput observable for it by using
+Each time we receive a `sequentialKeys` variable we create a `bufferedInput` observable for it by using
 the Scan method. Scan takes an initial value and an aggregator function as input, each time a value
 is produced the aggregator function is called passing in the aggregated value and the newly received
 value. This way we can produce an InputSequence each time a new buffer is opened and keep updating
 that InputSequence as new values are produced on the buffer.
 
-We then use that bufferedInput variable again to see if it matches a move each time the buffer is
+We then use that `bufferedInput` variable again to see if it matches a move each time the buffer is
 updated by checking if it matches a move. If there is a match we produce a new observable of one
 value containing the move, if no match was found we produce an observable without any values on it,
-Since we return an Observable inside another Observable we again have an Observable of Observables
-while instead we want to have an Observable of Moves. To solve this issue we use SelectMany which
+Since we return an observable inside another observable we again have an Observable of Observables
+while instead we want to have an observable of moves. To solve this issue we use `SelectMany` which
 takes all values produced in all the nested observables and combines them into a regular
 observable. Again, a visual representation of how values flow through all observables will most
 certainly help to understand what we have just coded:
 
-TODO Insert image
+<img width="690" src="/assets/images/street-fighter-4.png" />
 
-Finally to complete our exercise we subscribe to the MoveObservable to let the player actually
+Finally to complete our exercise we subscribe to the `MoveObservable` to let the player actually
 perform a move:
 
 ~~~ csharp
@@ -586,7 +584,10 @@ input buffering concepts are not intertwined: buffering simultaneous input is co
 and doesn’t know anything about sequential input buffering. Sequential input buffering only knows
 about simultaneous input buffering through the values it produces but not its internals. Likewise,
 we get sequential input buffers through the Window observable and then aggregate and match Moves on
-the fly without looking at or changing the internals of the sequential buffering code.  Conclusion
+the fly without looking at or changing the internals of the sequential buffering code.  
+
+# Conclusion
+
 With Rx we get programming constructs that allow us to describe game behavior over time. We’ve seen
 that this makes code for buffering input for a fighting game much more concise and readable than its
 traditionally programmed ‘polling’ counterpart.
@@ -602,10 +603,14 @@ To learn more about Rx, check out <http://www.introtorx.com>.
 
 # Notes on performance
 
-Rx .NET implementation is tailored for concurrency but Unity is single-threaded.
-Lambda’s create garbage?
-Notes on scheduling
-Rx uses the concept of Scheduling underneath to plan the execution of actions in the future. Using the default scheduler introduces problems when used with Unity as it uses up Unity’s thread to do the scheduling. To solve this problem a specific Scheduler for Unity has been written that plays nice with Unity’s threading model.
+- Rx .NET implementation is tailored for concurrency but Unity is single-threaded.
+- Lambda’s create garbage?
+
+# Notes on scheduling
+
+Rx uses the concept of Scheduling underneath to plan the execution of actions in the future.
+Using the default scheduler introduces problems when used with Unity as it uses up Unity’s thread to do the scheduling.
+To solve this problem a specific Scheduler for Unity has been written that plays nice with Unity’s threading model.
 
 Scheduling is a wide and complex concept that deserves an article on its own so we won’t go into the
 details here. Just remember that the Unity needs a specific scheduler to plan work ahead of time,
@@ -618,7 +623,7 @@ the concepts of Reactive programming a bit more by: Extending the combat system 
 
 - Adding a combo system, allowing moves to be linked.
 - Adding a blocking and hit/recovery system.
-- Add another example, that uses multiple input sources instead of one (the keyboard) 
+- Add another example, that uses multiple input sources instead of one (the keyboard)
 
 # Links
 
@@ -635,4 +640,3 @@ SDK\v1.0.10621\Binaries\.NETFramework\v3.5\System.Reactive.dll` into your Unity 
 `Assets\Plugins`
 folder. Now you should then be able to use the System.Reactive.Linq, System.Reactive.Concurrency
 namespace in your code.
-
