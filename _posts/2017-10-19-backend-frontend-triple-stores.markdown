@@ -3,9 +3,9 @@ layout: post
 title:  "Back-end and front-end, two sides of the same coin; or why triple stores 
 are fundamental to application development."
 date:   2017-10-19 14:00:00 +0200
+published: true
 categories: ['triple store', 'software design', 'software architecture', 'database']
 ---
-
 People often ask me if I'm a front-end developer or a back-end developer. I'm
 always glad to answer I'm both, or neither depending or your perspective. My
 issue with specializing in either one of them is that you lose perspective on
@@ -20,7 +20,7 @@ defined structure without losing the ability to do complicated queries. The
 particular triple store I got interested in is called Datascript and runs in
 memory on both Javascript (front-end) and the JVM (back-end).
 
-## Triple stores 
+# Triple stores 
 
 A database consists of a set of triples. A triple always consists of:
 
@@ -78,7 +78,7 @@ and back-end. This would solve two fundamental problems:
    structures are quite different. For rendering we often need different
    structure than for our domain logic. 
 
-## The back-end
+# The back-end
 
 The back-end is set up quite simply as a machine that processes incoming user
 commands, validates them, and updates the application database.
@@ -90,7 +90,7 @@ in zero or more domain events (like `reviewed(user-id, title, etc...)`), which
 represent actual updates in the application state. On the back-end these events
 get translated into new triples and it sends them off to the client.
 
-## The front-end
+# The front-end
 
 The front-end also has a triple store and receives updates from the back-end
 through events. However, this is not enough, the front-end needs more
@@ -115,7 +115,7 @@ reviews and their authors, and the bands that played the music etc. No need to
 dig into these deeply nested data structures anymore to find what we're looking
 for.
 
-## Sharing queries
+# Sharing queries
 
 Database queries that are used in the back-end can be re-used by the front-end.
 We can re-use the query that fetches all reviews for example. Or the query
@@ -123,7 +123,7 @@ that fetches all reviews for a particular user and so on.
 
 TODO Expand on this.
 
-## Concluding
+# Concluding
 
 While there's a lot of novelty in this approach and the wrinkles are by no means
 ironed out, I can only dream of a future where application development is done
