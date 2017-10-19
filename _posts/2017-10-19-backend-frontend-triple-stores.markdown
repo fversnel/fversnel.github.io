@@ -7,7 +7,7 @@ published: true
 categories: ['triple store', 'software design', 'software architecture', 'database']
 ---
 People often ask me if I'm a front-end developer or a back-end developer. I'm
-always glad to answer I'm both, or neither depending or your point of view. My
+always glad to answer I'm both, or neither depending on your point of view. My
 issue with specializing in either one of them is that you lose perspective on
 the bigger picture. You no longer are required to think about the other side of
 the fence.
