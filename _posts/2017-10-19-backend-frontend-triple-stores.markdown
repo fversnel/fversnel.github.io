@@ -25,8 +25,8 @@ memory on both Javascript (front-end) and the JVM (back-end).
 A database consists of a set of triples. A triple always consists of:
 
 1. A subject (a user, a piece of music, a review etc.)
-2. A relation (something that the entity has or refers to)
-3. A value (this can be another entity, a string, or any other value for that matter)
+2. A relation (something that the subject has or refers to)
+3. A value (this can be another subject, a string, or any other value for that matter)
 
 A triple looks like this:
 
