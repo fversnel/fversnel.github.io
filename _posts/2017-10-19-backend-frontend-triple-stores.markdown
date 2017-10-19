@@ -96,7 +96,7 @@ the user passwords and other sensitive data first). Each user command can result
 in zero or more domain events (like `reviewed(user-id, title, etc...)`), which
 represent actual updates in the application state. On the back-end these events
 get translated into new triples. It also sends off these events to the front-end
-so that it can update its state accordingly as well.
+so that it can update its state accordingly.
 
 # The front-end
 
