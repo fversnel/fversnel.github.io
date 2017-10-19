@@ -37,34 +37,41 @@ Where `frank` is the subject, `likes` is the relation, and `pizza` is the value.
 Consider this database:
 
 ```
-frank likes pizza
-frank likes programming
-frank knows-about pizza
-frank knows-about clojure
-martijn knows-about clojure
-clojure is programming-language
-programming is fun
-pizza is food
+frank has-password "passw0rd"
+frank has-email "frank@leftfetch.com"
+
+review-1 author frank
+review-1 title "Glasper's killing it!"
+review-1 record double-booked
+review-2 author frank
+review-2 title "Ryuichi Sakamoto - async"
+review-2 record async
+
+double-booked artist "Robert Glasper"
+double-booked album "Double Booked"
+
+async artist "Ryuichi Sakamoto"
+async album "async"
 ```
 
-We can now query for example all entities that know about the clojure
-programming language, like so:
+We can now query for example all authors that wrote a review, like so:
 
 ```
-?entity knows-about clojure
+?subject author ?author
 ```
 
-We get all the entities that know about `clojure`. Taking it a step further we
-can also get the type of things someone knows about:
+We get all the authors that wrote a review, in this case just me `frank`. Taking
+ it a step further we can also get authors that wrote a review for Robert
+ Glasper's album Double Booked:
 
 ```
-?subject knows-about ?something
-?something is ?type
+?review record double-booked
+?review author ?author
 ```
 
-We now get: `frank clojure programming-language`, `frank pizza food`, `martijn
-clojure programming-language`. If you know SQL you can see we can do implicit
-joins with the query language very easily.
+If you know SQL you can see we can do implicit joins with the query language
+very easily. We get all reviews for `double-booked` and then extract the author
+for each of the reviews.
 
 Having such a loosely defined structure while retaining a very rich query
 capability got me thinking: what if we would use only one data structure for our
@@ -94,7 +101,7 @@ so that it can update its state accordingly as well.
 # The front-end
 
 The front-end also has a triple store and receives updates from the back-end
-through events. However, this isn't enough: The front-end needs more information
+through events. However, this isn't enough: the front-end needs more information
 to do rendering. For example it needs to know about UI state: which elements are
 highlighted etc. The front-end extends the back-end triple store with some more
 triples, like:
