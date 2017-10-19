@@ -116,8 +116,8 @@ Due to the simple structure of triples there's no need to worry something might
 not fit. We can just add more triples. The domain between the back-end and
 front-end is shared, so it's very unlikely the triples in the back-end database
 don't match the ones needed by the front-end. Some triples that are used in the
-back-end are never used in the front-end, but it's no problem to just ignore
-them. These triples don't break anything.
+back-end are never used in the front-end. It's no problem to just ignore, they
+won't break anything.
 
 The most beautiful thing is that no matter how complicated the UI gets, we can
 always write a query that gives us the right data back. We can get all music
