@@ -7,10 +7,10 @@ published: true
 categories: ['triple store', 'software design', 'software architecture', 'database']
 ---
 People often ask me if I'm a front-end developer or a back-end developer. I'm
-always glad to answer I'm both, or neither depending or your perspective. My
+always glad to answer I'm both, or neither depending or your point of view. My
 issue with specializing in either one of them is that you lose perspective on
 the bigger picture. You no longer are required to think about the other side of
-the fence, that is the front-end fence or the back-end fence.
+the fence.
 
 When I set out to build an app where you can review music and recommend music to
 your friends, I thought I'd try a different approach. My quest became to share
@@ -60,9 +60,9 @@ We can now query for example all authors that wrote a review, like so:
 ?subject author ?author
 ```
 
-We get all the authors that wrote a review, in this case just me `frank`. Taking
- it a step further we can also get authors that wrote a review for Robert
- Glasper's album Double Booked:
+We get all reviews and their authors, in this case `review-1 frank` `review-2
+ frank`. Taking it a step further we can also get authors that wrote a review
+ for Robert Glasper's album Double Booked:
 
 ```
 ?review record double-booked
@@ -116,8 +116,8 @@ Due to the simple structure of triples there's no need to worry something might
 not fit. We can just add more triples. The domain between the back-end and
 front-end is shared, so it's very unlikely the triples in the back-end database
 don't match the ones needed by the front-end. Some triples that are used in the
-back-end are never used in the front-end. It's no problem to just ignore, they
-won't break anything.
+back-end might never get used in the front-end. It's no problem to just ignore
+them, they won't break anything.
 
 The most beautiful thing is that no matter how complicated the UI gets, we can
 always write a query that gives us the right data back. We can get all music
