@@ -67,16 +67,16 @@ clojure programming-language`. If you know SQL you can see we can do implicit
 joins with the query language very easily.
 
 Having such a loosely defined structure while retaining a very rich query
-capability got me thinking. What if we would use only one data structure for our
+capability got me thinking: what if we would use only one data structure for our
 entire application? The entire application state as a triple store, front-end
 and back-end. This would solve two fundamental problems:
 
-1. The data formatting problem: where the data is never formatted in the right
+1. **The data formatting problem**: where the data is never formatted in the right
    way. How often are we not transforming our data structure to fit our
    environment? We would get rid of this glue code once and for all.
-2. Code between back-end and front-end almost never gets shared because the data
-   structures are quite different. For rendering we often need different
-   structure than for our domain logic. 
+2. **The code sharing problem**: Code between back-end and front-end almost
+   never gets shared because the data structures are quite different. For
+   rendering we often need different structure than for our domain logic. 
 
 # The back-end
 
@@ -88,15 +88,16 @@ and the back-end simply sends all its triples to the front-end (filtering out
 the user passwords and other sensitive data first). Each user command can result
 in zero or more domain events (like `reviewed(user-id, title, etc...)`), which
 represent actual updates in the application state. On the back-end these events
-get translated into new triples and it sends them off to the client.
+get translated into new triples. It also sends off these events to the front-end
+so that it can update its state accordingly as well.
 
 # The front-end
 
 The front-end also has a triple store and receives updates from the back-end
-through events. However, this is not enough, the front-end needs more
-information to do rendering. For example it needs to know about UI state, which
-elements are highlighted etc. The front-end extends the back-end triple store
-with some more triples, like:
+through events. However, this isn't enough: The front-end needs more information
+to do rendering. For example it needs to know about UI state: which elements are
+highlighted etc. The front-end extends the back-end triple store with some more
+triples, like:
 
 ```review is-highlighted true```
 
@@ -104,10 +105,12 @@ and
 
 ```review is-expanded true```
 
-Due to the simple structure there's no need to worry something might not fit. We
-just add more triples. The domain between the back-end and front-end is shared,
-so it's very unlikely the triples in the back-end database don't match the ones
-needed by the front-end.
+Due to the simple structure of triples there's no need to worry something might
+not fit. We can just add more triples. The domain between the back-end and
+front-end is shared, so it's very unlikely the triples in the back-end database
+don't match the ones needed by the front-end. Some triples that are used in the
+back-end are never used in the front-end, but it's no problem to just ignore
+them. These triples don't break anything.
 
 The most beautiful thing is that no matter how complicated the UI gets, we can
 always write a query that gives us the right data back. We can get all music
