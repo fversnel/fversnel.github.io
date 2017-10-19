@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Back-end and front-end, two sides of the same coin; or why triple stores 
+title:  "Back-end and front-end: two sides of the same coin; or why triple stores 
 are fundamental to application development."
 date:   2017-10-19 14:00:00 +0200
 published: true
