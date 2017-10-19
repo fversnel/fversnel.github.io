@@ -2,7 +2,7 @@
 layout: post
 title:  "Back-end and front-end: two sides of the same coin; or why triple stores 
 are fundamental to application development."
-date:   2017-10-19 14:00:00 +0200
+date:   2017-10-19 16:25:00 +0200
 published: true
 categories: ['triple store', 'software design', 'software architecture', 'database']
 ---
