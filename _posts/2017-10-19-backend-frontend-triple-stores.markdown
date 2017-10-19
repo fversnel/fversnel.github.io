@@ -9,8 +9,8 @@ categories: ['triple store', 'software design', 'software architecture', 'databa
 People often ask me if I'm a front-end developer or a back-end developer. I'm
 always glad to answer I'm both, or neither depending on your point of view. My
 issue with specializing in either one of them is that you lose perspective on
-the bigger picture. You no longer are required to think about the other side of
-the fence.
+the bigger picture. You're no longer need to think about what happens on the
+other side of the fence.
 
 When I set out to build an app where you can review music and recommend music to
 your friends, I thought I'd try a different approach. My quest became to share
@@ -18,7 +18,8 @@ as much code between front-end and back-end as good software design would allow.
 I heard about triple stores and how they can store data in a very loosely
 defined structure without losing the ability to do complicated queries. The
 particular triple store I got interested in is called Datascript and runs in
-memory on both Javascript (front-end) and the JVM (back-end).
+memory on both Clojurescript and Javascript (front-end) and on the JVM
+(back-end).
 
 # Triple stores 
 
@@ -87,16 +88,16 @@ and back-end. This would solve two fundamental problems:
 
 # The back-end
 
-The back-end is set up quite simply as a machine that processes incoming user
-commands, validates them, and updates the application database.
+The back-end is set up as a machine that processes incoming user commands,
+validates them, and updates the application database.
 
-Since the database is a triple store we can easily share it with the front-end
-and the back-end simply sends all its triples to the front-end (filtering out
-the user passwords and other sensitive data first). Each user command can result
-in zero or more domain events (like `reviewed(user-id, title, etc...)`), which
-represent actual updates in the application state. On the back-end these events
-get translated into new triples. It also sends off these events to the front-end
-so that it can update its state accordingly.
+Since the database is a triple store we can easily share it with the front-end.
+First of all, the back-end sends all its triples to the front-end initially
+(filtering out the user passwords and other sensitive data first). Each user
+command can result in zero or more domain events (like `reviewed(user-id, title,
+etc...)`), which represent actual updates in the application state. On the
+back-end these events get translated into new triples. It also sends off these
+events to the front-end so that it can update its state accordingly.
 
 # The front-end
 
@@ -112,8 +113,9 @@ and
 
 ```review is-expanded true```
 
-Due to the simple structure of triples there's no need to worry something might
-not fit. We can just add more triples. The domain between the back-end and
+Due to the simple structure of the triple store (essentially is just a flat set
+of triples) there's no need to worry something might not fit. We can just add
+more triples or remove them, that's it. The domain between the back-end and
 front-end is shared, so it's very unlikely the triples in the back-end database
 don't match the ones needed by the front-end. Some triples that are used in the
 back-end might never get used in the front-end. It's no problem to just ignore
@@ -139,8 +141,8 @@ While there's a lot of novelty in this approach and the wrinkles are by no means
 ironed out, I can only dream of a future where application development is done
 this way.
 
-To all developers I would like to say: stay critical of your application's
-architecture. Never just take it for granted. Always keep looking for
-alternatives. Write down what annoys you. But most of all remember that the
-front-end and back-end divide is just made up. It doesn't need to be there if
-you don't want to.
+To all developers I would like to say: always be critical of your application's
+architecture. Never just take it for granted. Keep looking for alternatives.
+Write down what annoys you. But most of all remember that the front-end and
+back-end divide is just made up. It doesn't need to be there if you don't want
+to.
