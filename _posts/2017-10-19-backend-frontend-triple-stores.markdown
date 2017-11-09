@@ -19,9 +19,10 @@ I heard about triple stores and how they can store data in a very loosely
 defined structure without losing the ability to do complicated queries.
 
 *Hats off to the people in the Clojure community who've been advocating the use
-of triple stores (Rich Hickey, David Nolen, Nikita Prokopov). Without them I would have never even thought of using triple
-stores. Furthermore, Clojure makes it ridiculously simple to share code between
-server and client, which was essential to make this whole idea work.*
+of triple stores (Rich Hickey, David Nolen, Nikita Prokopov). Without them I
+would have never even thought of using triple stores. Furthermore, Clojure makes
+it ridiculously simple to share code between server and client, which was
+essential to make this whole idea work.*
 
 # Triple stores
 
@@ -108,18 +109,15 @@ Glasper - Double Booked" etc..)`.
 Since the database is a triple store we can easily share it with the front-end.
 First of all, the back-end sends all its triples to the front-end initially
 (filtering out the user passwords and other sensitive data first). Each user
-command can result in zero or more domain events (like `reviewed(user-id, title,
-etc...)`), which represent actual updates in the application state. On the
-back-end these events get translated into new triples. It also sends off these
-events to the front-end so that it can update its state accordingly.
+command can result in zero or more domain events which follow the same structure
+of `label+triples`. It also sends off these events to the front-end so that it
+can update its state accordingly.
 
 # The front-end
 
 The front-end also has a triple store and receives updates from the back-end
-through events. Events are essentially validated commands by the server, so they
-too follow the structure of a set of triples with a label attached to it.
-However, this isn't enough: the front-end needs more information to do
-rendering. For example it needs to know about UI state: which elements are
+through events. However, this isn't enough: the front-end needs more information
+to do rendering. For example it needs to know about UI state: which elements are
 highlighted etc. The front-end extends the back-end triple store with some more
 triples, like:
 
