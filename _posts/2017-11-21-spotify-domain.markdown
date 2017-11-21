@@ -70,6 +70,6 @@ playlist almost co-incidentally exist in the same space and are very weakly
 related. As if each concept was designed by someone else without thinking about
 the whole.
 
-As you can see a unification and broad application of the playlist concepts
-neatly links everything together. The user only really needs to understand the
-concept of a playlist and all other concepts logically tie into that.
+A unification and broad application of the playlist concepts neatly links
+everything together. The user only really needs to understand the concept of a
+playlist and all other concepts logically tie it.
