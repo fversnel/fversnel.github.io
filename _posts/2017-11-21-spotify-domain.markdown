@@ -16,7 +16,7 @@ lots of concepts to wrap your head around:
 - Albums (A list of songs corresponding to a record an artist has put out)
 - Artists (A list of albums the artist has worked on + a biography + related artists)
 - Folders (Can contain playlists and more folders)
-- Following (You can follow artists, and playlists alike)
+- Following (You can follow artists and playlists alike)
 - Favorites (Keeps track of your favorite songs)
 
 These concepts are all useful in their own right but they do not work together
@@ -73,4 +73,4 @@ the whole.
 
 A unification and broad application of the playlist concepts neatly links
 everything together. The user only really needs to understand the concept of a
-playlist and all other concepts logically tie it.
+playlist and all other concepts logically tie into it.
