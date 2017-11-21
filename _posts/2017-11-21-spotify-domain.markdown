@@ -22,9 +22,9 @@ that it is an album altogether. Which means that when I play a song off the
 album page it's not the same song as the song on my playlist of the album
 because the playlist is not the album. Confused? So am I.
 
-I propose a unification of all these concepts by making everything a **playlist**.
+I propose a unification of all these concepts by making everything a **playlist**:
 
-An **album** is a playlist and can be used as such. A folder is a set of
+An **album** becomes a playlist and can be used as such. A folder is a set of
 playlists but also a playlist comprised of this set. This allows you to play
 music from the folder as a playlist when you want to, without losing the
 structure of all the separate playlists in the folder.
@@ -36,8 +36,8 @@ Want to keep track of your favorites? Simply create a playlist called
 **favorites** and put your favorite songs in there. No need for a separate
 'favorites' concept.
 
-**Following** is still very useful, allowing you essentially refer to playlists
-by another artist, user, whatever and receiving updates to the playlist as well.
+**Following** is still very useful, allowing you refer to playlists by another
+artist, user, whatever and receiving updates to the playlist as well.
 
 # Set theory
 
@@ -63,6 +63,10 @@ not compose with one another a design can often feel like it has been put
 together in an ad-hoc fashion.
 
 As with the Spotify app, we see that all these concepts like album, artist,
-playlist almost co-incidentally exist in the same space but are very weakly
+playlist almost co-incidentally exist in the same space and are very weakly
 related. As if each concept was designed by someone else without thinking about
 the whole.
+
+As you can see a unification and broad application of the playlist concepts
+neatly links everything together. The user only really needs to understand the
+concept of a playlist and all other concepts logically tie into that concept.
