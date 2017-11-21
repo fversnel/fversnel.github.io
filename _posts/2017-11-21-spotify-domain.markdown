@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Why Spotify's domain is too complicated and how to fix it"
+title:  "Why Spotify's domain model is too complicated and how to fix it"
 date:   2017-11-21 16:25:00 +0200
 published: true
 categories: ['spotify', 'software design', 'domain modeling']
