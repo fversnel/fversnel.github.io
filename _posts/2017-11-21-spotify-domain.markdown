@@ -5,6 +5,9 @@ date:   2017-11-21 16:25:00 +0200
 published: true
 categories: ['spotify', 'software design', 'domain modeling']
 ---
+
+*(Disclaimer: I don't work for Spotify)*
+
 Spotify is that really popular music streaming service most of you probably know
 about. If you're familiar with the app you might also know that they give you
 lots of concepts to wrap your head around:
@@ -69,4 +72,4 @@ the whole.
 
 As you can see a unification and broad application of the playlist concepts
 neatly links everything together. The user only really needs to understand the
-concept of a playlist and all other concepts logically tie into that concept.
+concept of a playlist and all other concepts logically tie into that.
