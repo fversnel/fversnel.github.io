@@ -41,8 +41,9 @@ Where `frank` is the subject, `likes` is the relation, and `pizza` is the value.
 Consider this database:
 
 ```
-frank has-password "passw0rd"
-frank has-email "frank@example.com"
+frank name "Frank"
+frank password "passw0rd"
+frank email "frank@example.com"
 
 review-1 author frank
 review-1 title "Glasper's killing it!"
@@ -72,18 +73,20 @@ code.
 The query gets us all reviews and their authors, in this case `review-1 author
  frank`, `review-2 author frank`. 
  
- Taking it a step further we can also get authors that wrote a review for Robert
+ Taking it a step further we can also get the authors that wrote a review for Robert
  Glasper's album Double Booked:
 
 ```
 ?review record double-booked
 ?review author ?author
+?author name ?author-name
+?author email ?email
 ```
 
 As you can see the set of triples form a graph where subjects are connected to
 one another. If you know SQL you can see we can do implicit joins with the query
 language very easily. We get all reviews for `double-booked` and then extract
-the author for each of the reviews.
+the author's name and email for each of the reviews.
 
 Having such a loosely defined structure while retaining a very rich query
 capability got me thinking: what if we would use only one data structure for our
@@ -92,7 +95,7 @@ and back-end. This would solve two fundamental problems:
 
 1. **The data formatting problem**: where the data is never formatted in the right
    way. How often are we not transforming our data structure to fit our
-   environment? We would get rid of this glue code once and for all.
+   environment? We would like to get rid of this glue code once and for all.
 2. **The code sharing problem**: Code between back-end and front-end almost
    never gets shared because the data structures are quite different. For
    rendering we often need different structure than for our domain logic.
