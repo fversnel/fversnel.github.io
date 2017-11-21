@@ -27,10 +27,11 @@ because the playlist is not the album. Confused? So am I.
 
 I propose a unification of all these concepts by making everything a **playlist**:
 
-An **album** becomes a playlist and can be used as such. A folder is a set of
-playlists but also a playlist comprised of this set. This allows you to play
-music from the folder as a playlist when you want to, without losing the
-structure of all the separate playlists in the folder.
+**Albums** become playlists and can be used as such. 
+
+A **folder** is a set of playlists but also a playlist comprised of this set.
+This allows you to play music from the folder as a playlist when you want to,
+without losing the structure of all the separate playlists in the folder.
 
 **Artists** also become playlists, where the playlist is updated every time the
 artist puts out a new record.
