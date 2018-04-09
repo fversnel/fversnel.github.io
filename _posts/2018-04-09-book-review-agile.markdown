@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Book review - Bertrand Meyer's 'Agile: the good, the bad, the ugly'"
+title:  "Book review - Bertrand Meyer's 'Agile: the Good, the Hype, the Ugly'"
 date:   2018-04-09 17:00:00 +0100
 published: true
 categories: ['agile', 'scrum', 'software process']
