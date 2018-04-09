@@ -6,7 +6,6 @@ published: true
 categories: ['agile', 'scrum', 'software process']
 ---
 
-This is a review of Betrand Meyer's book: 'Agile: the good, the bad, the ugly'. 
 As a software engineer I was really keen on reading this book because I always 
 felt I didn't have enough knowledge about Agile to critise it. The sheer religious-like
 following of this movement has always scared me a little bit. I never heard much open
@@ -106,4 +105,4 @@ We need solid structures to build on, stuff that will last for a while. We need 
 about, accomodate, and design for change rather than designing the code such that it's good enough
 for one particular story.
 
-I definitely recommond reading this to people involved in software development, not just programmers.
+I definitely recommend people involved in software development, not just programmers, to read this book.
