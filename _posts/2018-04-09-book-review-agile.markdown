@@ -10,11 +10,11 @@ As a software engineer I was really keen on reading this book because I always
 felt I didn't have enough knowledge about Agile to critise it. The sheer religious-like
 following of this movement has always scared me a little bit. I never heard much open
 critique on Agile. I'm partly to blame in this because of lack of knowledge of the underlying theory.
-I thought this book might give me some ammunition against some of the Agile priests.
+I thought this book might some more insight in the underlying theory
 
-That being said, Agile has brought the industry a great benefit while at the same time making things worse. This book
-serves as a guide for learning about various Agile methods (XP, Scrum, etc.) and which elements can
-truly benefit a software project and which things can harm a project.
+That being said, Agile has brought the industry a great benefit while at the same time making things worse,
+according to Meyer. This book serves as a guide for learning about various Agile methods (XP, Scrum, etc.) 
+and which elements can truly benefit a software project and which things can harm a project.
 
 I will focus mostly on the critism of Scrum that resides in this book and I will also add some of my
 own experiences and opinions about Scrum related to the criticisms in this book.
