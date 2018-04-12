@@ -1,30 +1,36 @@
 ---
 layout: post
-title:  "Book review - Bertrand Meyer's 'Agile: the Good, the Hype, the Ugly'"
+title:  "About Scrum (and Agile)"
 date:   2018-04-09 17:00:00 +0100
 published: true
 categories: ['agile', 'scrum', 'software process']
 ---
 
-As a software engineer I was really keen on reading this book because I always 
-felt I didn't have enough knowledge about Agile to critise it. The sheer religious-like
+As a software engineer I was really keen on reading Bertrand Meyer's 'Agile: the good, the hype, the ugly' because I always 
+felt I didn't have enough knowledge about Agile to critise it. The sometimes religious-like
 following of this movement has always scared me a little bit. I never heard much open
 critique on Agile. I'm partly to blame in this because of lack of knowledge of the underlying theory.
 I thought this book might some more insight in the underlying theory
 
-That being said, Agile has brought the industry a great benefit while at the same time making things worse,
+That being said, Agile has brought the industry great benefits while at the same time making things worse,
 according to Meyer. This book serves as a guide for learning about various Agile methods (XP, Scrum, etc.) 
 and which elements can truly benefit a software project and which things can harm a project.
 
-I will focus mostly on the critism of Scrum that resides in this book and I will also add some of my
+I will cover some of the Agile practices covered in the book and will tell you some of my
 own experiences and opinions about Scrum related to the criticisms in this book.
 
 # Refactoring
 
 Changing the structure of the code without changing the behavior to accomodate for new features
 is crucial to iterative development. New features will challenge the existing structure and
-show cracks in the original design. To fix this the design and code needs to change,
-i.e. needs to be refactored.
+show cracks in the original design. To fix this the design, code needs to change
+i.e. needs to be refactored. 
+
+Refactoring is an important activity often not appreciated
+enough by non-developers because it doesn't seem to generate immediate business value. Not refactoring
+also has a cost though. It will become harder to add more features in the future, due to the fact
+that the current design was built on an older model: an older view of the world when life was simpler,
+so to speak.
 
 # Sprints, short iterations, and a focus on short-term
 
@@ -44,6 +50,19 @@ expensive that the case for upfront design for these types of activities becomes
 Not just architecture but many activities require larger-than-sprint vision, planning, and
 studying. The fact that Agile doesn't want you to do any of that work upfront means it has to be
 done in a sprint, which can very well harm the project.
+
+# User stories
+
+A system built on user stories will always be geared towards what the user will be doing with the system.
+By definition these stories will be about the concrete instead of the abstract. Not having any general
+requirements for the system means that it will be much harder to build proper abstractions that
+allow you to cover a range of user stories.
+
+From what I've experienced, great programmers design abstractions by learning the system and domain really well,
+and then trying to fit user stories with the existing abstractions, or they create new abstractions if
+the current ones are insufficient. It all comes back to the no upfront design mantra that can really
+harm a project. Every successful project needs a few visionaries that will look beyond 
+the user stories. Unfortunately Agile doesn't seem to provide any tools for them.
 
 # Collective code ownership
 
@@ -91,12 +110,13 @@ an important activity in a sprint-based process.
 
 Code reviews are great! Having another developer check your design and code keeps everyone
 aligned. Not only that, it's an extra insentive for programmers to keep up with quality standards.
-If you're code is not up to par it will simply not pass the review.
+If you're code is not up to par it will simply not pass the review. Developers will keep this
+in mind while coding and not take 
 
 # Concluding
 
 Agile brought us many benefits but also harmed software development. This book explains, mostly
-just by simple deductive reasoning, that some of the Agile practices are incomplete or wrong, while
+just by using logical reasoning, that some of the Agile practices are incomplete or wrong, while
 others are great and have proven their worth.
 
 Meyer's biggest problem is that Agile doesn't allow for upfront design. A lack of oversight
