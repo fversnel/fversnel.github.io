@@ -6,11 +6,9 @@ published: true
 categories: ['agile', 'scrum', 'software process']
 ---
 
-As a software engineer I was really keen on reading Bertrand Meyer's 'Agile: the good, the hype, the ugly' because I always 
-felt I didn't have enough knowledge about Agile to critise it. The sometimes religious-like
-following of this movement has always scared me a little bit. I never heard much open
-critique on Agile. I'm partly to blame in this because of lack of knowledge of the underlying theory.
-I thought this book might some more insight in the underlying theory
+The sometimes religious-like following of this movement has always scared me a little bit. 
+I was really keen on reading Bertrand Meyer's 'Agile: the good, the hype, the ugly' because I 
+felt I didn't have enough knowledge about Agile to critise it. 
 
 That being said, Agile has brought the industry great benefits while at the same time making things worse,
 according to Meyer. This book serves as a guide for learning about various Agile methods (XP, Scrum, etc.) 
