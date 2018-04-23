@@ -8,7 +8,7 @@ categories: ['agile', 'scrum', 'software process']
 
 The sometimes religious-like following of this movement has always scared me a little bit. 
 I was really keen on reading Bertrand Meyer's 'Agile: the good, the hype, the ugly' because I 
-felt I didn't have enough knowledge about Agile to critise it. 
+felt I didn't have enough knowledge about Agile to criticise it.
 
 That being said, Agile has brought the industry great benefits while at the same time making things worse,
 according to Meyer. This book serves as a guide for learning about various Agile methods (XP, Scrum, etc.) 
@@ -109,7 +109,7 @@ an important activity in a sprint-based process.
 Code reviews are great! Having another developer check your design and code keeps everyone
 aligned. Not only that, it's an extra insentive for programmers to keep up with quality standards.
 If you're code is not up to par it will simply not pass the review. Developers will keep this
-in mind while coding and not take 
+in mind while coding and won't take unnecessary shortcuts.
 
 # Concluding
 
