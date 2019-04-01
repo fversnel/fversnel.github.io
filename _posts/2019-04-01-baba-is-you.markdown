@@ -7,7 +7,7 @@ categories: ['game development', 'software design', 'clojure']
 ---
 
 Have you played "Baba is you" yet? It's a fantastic logic puzzle game, one
-that I highly recommend. If don't know the game please watch a 
+that I highly recommend. If you don't know the game please watch a 
 [video](https://www.youtube.com/watch?v=z3_yA4HTJfs)
 on it as this post will be about how we implement the game using the Clojure
 programming language and a library called 
