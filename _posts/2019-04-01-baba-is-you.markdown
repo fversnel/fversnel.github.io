@@ -31,8 +31,7 @@ incredible amount of detail. You can state for example
 that your level is a 2d vector containing
 at least five cells of water, a player, and the number 42.
 
-Furthermore once you've written a spec you can match it against a data structure and
-it will tell you:
+Furthermore once you've written a spec you can match it against a data structure and:
 
 1. It will validate your data structure.
 2. It will annotate your data structure such that you can easily walk over it, 
