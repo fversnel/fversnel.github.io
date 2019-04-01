@@ -91,9 +91,7 @@ They're are bit more complicated:
 
 The words eventually have to form sentences. 
 Sentences in Baba consist of: subject, verb, object.
-So we make the same distinction.
-
-Let's define a sentence:
+So we make the same distinction:
 
 ```clojure
 (s/def ::sentence
