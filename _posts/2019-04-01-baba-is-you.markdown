@@ -239,8 +239,8 @@ I want to make is that the basics of the game of Baba can be written down
 as a simple clojure specification. 
 There's absolutely no complicated logic involved here, 
 no complex algorithm to parse or transform the level. 
-Just a spec and a simple function for extracting some rules out the level.
+Just a spec and a simple function for extracting some rules out of the level.
 
-I hope this will be a stepping for me and for others towards simpler software
+I hope this will be a stepping stone for me and for others towards simpler software
 and game design.
 
