@@ -231,7 +231,7 @@ Running it against our conformed level will produce:
 => (rules (s/conform ::level example-level))
 
 #{[:sentence {:subject :word/baba, :verb :word/is, :object :word/you}]
-  [:sentence {:subject :word/wall, :verb :word/is, :object :word/stop}]}
+  [:sentence {:subject :word/flag, :verb :word/is, :object :word/win}]}
 ```
 
 We're still far away from implementing the entire game of course but the point
