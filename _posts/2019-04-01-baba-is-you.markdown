@@ -27,14 +27,15 @@ If you don't know what clojure.spec is I recommend reading the
 to use it.
 
 clojure.spec allows you to describe your data (e.g. a level of a game) in an
-incredible amount of detail. You can state that your level is a 2d vector containing
+incredible amount of detail. You can state for example
+that your level is a 2d vector containing
 at least five cells of water, a player, and the number 42.
 
 Furthermore once you've written a spec you can match it against a data structure and
 it will tell you:
 
-1. whether the data structure is valid according to the spec
-2. will 'type-hint' your data structure such that you can easily walk over it, 
+1. It will validate your data structure.
+2. It will annotate your data structure such that you can easily walk over it, 
 matching individual elements.
 Meaning a data structure that looks like: `[:water 42 :baba]` might be transformed to:
 `[[:game-object :water] [:number 42] [:player :baba]]`
@@ -103,12 +104,12 @@ Let's define a sentence:
    :object ::object)))
 ```
 
-At this point it started loving how much clojure.spec 
+At this point I started loving how much clojure.spec 
 allows you to write code that is very close to what the intent of your program is.
 Look at this: a sentence is always a sequence (`cat`) of a `::subject`, then a `::verb`, 
-and then an `::object`. 
+and then an `::object`. Beautiful!
 
-We also have to define individual cells. Cells can contain any type of legal Baba object,
+We also have to define individual cells. Cells can contain any type of legal thing,
 so both words, game objects, but they can also be empty:
 
 ```clojure
@@ -124,12 +125,12 @@ so both words, game objects, but they can also be empty:
 ```
 
 Just more of the same really. Now we have to compose `::cell` and `::sentence` together
-to write specfication for our example level.
-We want first to match sentences, and if the cell
+to write a specfication for our example level.
+We first want to match sentences, and if the cell
 does not belong to a sentence we want to match it as a normal cell. 
 This will allow us later to extract the sentences and derive the game's rules from them.
 
-This is how we match either a cell or a sentence:
+Here's how we match either a cell or a sentence:
 
 ```clojure
 (s/def ::row
@@ -138,8 +139,8 @@ This is how we match either a cell or a sentence:
     :cell ::cell))
 ```
 
-This will allow us to match `[:word/flag :word/is :word/win]`, but also `:flag`. 
-It will not allow us to match an entire row of the Baba level so we need to add something else:
+We can match `[:word/flag :word/is :word/win]`, but also `:flag`. 
+It will not allow us to match an entire row of the level so we need to add something else:
 
 ```clojure
 (s/def ::row
@@ -153,7 +154,7 @@ With `s/*` we say: match a sequence of mixed values consisting of sentences and
 regular cells where the first rule (`:sentence`) is applied first. 
 Since spec allows for ordering of rules we make sure that we always match sentences first
 and if that fails, we try for cells. If it were the other way around (matching cells first),
-we would never match sentences as sentences are also regular cells.
+we would never match sentences as the sentence's components are also regular cells.
 
 Let's try to match a row of a Baba level using our new and shiny specification:
 
@@ -212,12 +213,11 @@ This is what happens when we try to conform the entire level:
 # Using the spec
 
 
-To top it off we'll write a function that takes a level and returns only the level's
+To top it off we'll write a function that takes a level and returns only the its
 rules:
 
 ```clojure
-(defn rules
-  [level]
+(defn rules [level]
   (let [match-sentences
         (filter
          (fn [[type & _]]
@@ -238,11 +238,12 @@ Running it against our conformed level will produce:
 ```
 
 We're still far away from implementing the entire game of course but the point
-I want to make is that you can write what the basics of the game of Baba
-by just writing down the specification with clojure.spec. There's absolutely
-no complicated logic involved here, no algorithm besides a simple function for
-extracting some rules out of a larger data structure.
+I want to make is that the basics of the game of Baba can be written down
+as a simple clojure specification. 
+There's absolutely no complicated logic involved here, 
+no complex algorithm to parse or transform the level. 
+Just a spec and a simple function for extracting some rules out the level.
 
-I hope this will be a stepping for me and for other towards simpler software
+I hope this will be a stepping for me and for others towards simpler software
 and game design.
 
