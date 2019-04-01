@@ -210,7 +210,7 @@ This is what happens when we try to conform the entire level:
 # Using the spec
 
 
-To top it off we'll write a function that takes a level and returns only the its
+To top it off we'll write a function that takes a level and returns only its
 rules:
 
 ```clojure
