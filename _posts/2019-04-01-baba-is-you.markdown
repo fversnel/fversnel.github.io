@@ -217,13 +217,13 @@ rules:
 
 ```clojure
 (defn rules [level]
-  (let [match-sentence
+  (let [filter-sentence
         (filter
          (fn [[type & _]]
            (= type :sentence)))]
     (into
      #{}
-     (comp cat match-sentence)
+     (comp cat filter-sentence)
      level)))
 ```
 
