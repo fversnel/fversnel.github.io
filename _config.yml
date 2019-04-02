@@ -9,3 +9,5 @@ github_username:  fversnel
 
 # Build settings
 markdown: kramdown
+
+theme: jekyll-theme-slate
