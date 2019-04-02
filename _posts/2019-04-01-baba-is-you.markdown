@@ -47,10 +47,10 @@ Let's start by describing what a Baba level looks like in clojure:
 
 ```clojure
 (def example-level
-  [[:wall  :empty     :word/baba :word/is   :word/you :empty :wall]
-   [:wall  :empty     :empty     :baba      :empty    :empty :wall]
-   [:wall  :wall      :wall      :wall      :wall     :flag  :wall]
-   [:empty :word/flag :word/is   :word/win  :grass    :grass :empty]])
+  [[:word/flag :empty     :word/baba :word/is   :word/you :empty :wall]
+   [:wall      :empty     :empty     :baba      :empty    :empty :wall]
+   [:wall      :wall      :wall      :wall      :wall     :empty :wall]
+   [:empty     :word/flag :word/is   :word/win  :grass    :grass :empty]])
 ```
 
 This level has the following properties:
@@ -156,9 +156,9 @@ we would never match sentences as the sentence's components are also regular cel
 Let's try to match a row of a Baba level using our new and shiny specification:
 
 ```clojure
-=> (s/conform ::row [:wall :empty :word/baba :word/is :word/you :empty :wall])
+=> (s/conform ::row [:word/flag :empty :word/baba :word/is :word/you :empty :wall])
 
-[[:cell [:game-object :wall]]
+[[:cell [:word [:subject :word/flag]]]
  [:cell [:empty :empty]]
  [:sentence {:subject :word/baba, :verb :word/is, :object :word/you}]
  [:cell [:empty :empty]]
@@ -190,18 +190,20 @@ This is what happens when we try to conform the entire level:
   [:cell [:game-object :wall]]]
  [[:cell [:game-object :wall]]
   [:cell [:empty :empty]]
-  [:sentence {:subject :word/baba, :verb :word/is, :object :word/you}]
+  [:cell [:empty :empty]]
+  [:cell [:game-object :baba]]
+  [:cell [:empty :empty]]
   [:cell [:empty :empty]]
   [:cell [:game-object :wall]]]
  [[:cell [:game-object :wall]]
+  [:cell [:word [:subject :word/flag]]]
   [:cell [:game-object :wall]]
   [:cell [:game-object :wall]]
   [:cell [:game-object :wall]]
-  [:cell [:game-object :wall]]
-  [:cell [:game-object :wall]]
+  [:cell [:empty :empty]]
   [:cell [:game-object :wall]]]
  [[:cell [:empty :empty]]
-  [:sentence {:subject :word/wall, :verb :word/is, :object :word/stop}]
+  [:sentence {:subject :word/flag, :verb :word/is, :object :word/win}]
   [:cell [:game-object :grass]]
   [:cell [:game-object :grass]]
   [:cell [:empty :empty]]]]
