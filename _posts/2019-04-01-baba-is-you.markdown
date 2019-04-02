@@ -183,7 +183,7 @@ This is what happens when we try to conform the entire level:
 ```clojure
 => (s/conform ::level example-level)
 
-[[[:cell [:game-object :wall]]
+[[[:cell [:word [:subject :word/flag]]]
   [:cell [:empty :empty]]
   [:sentence {:subject :word/baba, :verb :word/is, :object :word/you}]
   [:cell [:empty :empty]]
@@ -196,7 +196,7 @@ This is what happens when we try to conform the entire level:
   [:cell [:empty :empty]]
   [:cell [:game-object :wall]]]
  [[:cell [:game-object :wall]]
-  [:cell [:word [:subject :word/flag]]]
+  [:cell [:game-object :wall]]
   [:cell [:game-object :wall]]
   [:cell [:game-object :wall]]
   [:cell [:game-object :wall]]
