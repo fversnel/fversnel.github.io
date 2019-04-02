@@ -215,13 +215,14 @@ rules:
 
 ```clojure
 (defn rules [level]
-  (let [filter-sentence
+  (let [filter-sentences
         (filter
          (fn [[type & _]]
-           (= type :sentence)))]
+           (= type :sentence)))
+        map-rules (map second)]
     (into
      #{}
-     (comp cat filter-sentence)
+     (comp cat filter-sentences map-rules)
      level)))
 ```
 
@@ -230,8 +231,8 @@ Running it against our conformed level will produce:
 ```clojure
 => (rules (s/conform ::level example-level))
 
-#{[:sentence {:subject :word/baba, :verb :word/is, :object :word/you}]
-  [:sentence {:subject :word/flag, :verb :word/is, :object :word/win}]}
+#{{:subject :word/baba, :verb :word/is, :object :word/you}
+  {:subject :word/flag, :verb :word/is, :object :word/win}}
 ```
 
 We're still far away from implementing the entire game of course but the point
