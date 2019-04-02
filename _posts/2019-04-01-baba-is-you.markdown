@@ -223,7 +223,7 @@ rules:
            (= type :sentence)))
         map-rules (map second)]
     (into
-     []
+     #{}
      (comp cat filter-sentences map-rules)
      level)))
 ```
@@ -232,9 +232,10 @@ Running it against our conformed level will produce:
 
 ```clojure
 => (rules (s/conform ::level example-level))
-
-[{:subject :word/baba, :verb :word/is, :object :word/you}
- {:subject :word/flag, :verb :word/is, :object :word/win}]
+{% raw %}
+#{{:subject :word/baba, :verb :word/is, :object :word/you}
+  {:subject :word/flag, :verb :word/is, :object :word/win}}
+{% endraw %}
 ```
 
 We're still far away from implementing the entire game of course but the point
