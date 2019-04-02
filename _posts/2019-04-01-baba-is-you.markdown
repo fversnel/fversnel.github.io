@@ -245,3 +245,4 @@ Just a spec and a simple function for extracting some rules out of the level.
 I hope this will be a stepping stone for me and for others towards simpler software
 and game design.
 
+*All the code in this post as a Gist is available  [here](https://gist.github.com/fversnel/a868fa07fe9f1cbcce0fe4e4efeb5e57).*
